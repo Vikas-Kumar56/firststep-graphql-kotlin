@@ -7,6 +7,14 @@ type Query {
     recentPosts(page: Int!, size: Int!): [Post!]!
 }
 
+type Mutation {
+    addUser(addUserInput: AddUserInput!): ID!
+}
+
+input AddUserInput {
+    name: String!
+}
+
 type Post {
     id: ID!
     title: String!

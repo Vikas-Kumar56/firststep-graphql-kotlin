@@ -3,6 +3,7 @@ package com.basic101.firststep.resolver
 import com.basic101.firststep.service.PostService
 import com.basic101.firststep.service.UserService
 import org.springframework.graphql.data.method.annotation.Argument
+import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
@@ -23,6 +24,11 @@ class PostResolver(
     @QueryMapping
     fun recentPosts(@Argument page: Int,@Argument size: Int): List<Post> {
         return postService.getPosts(page, size)
+    }
+
+    @MutationMapping
+    fun addUser(@Argument("addUserInput") userInput: AddUserInput): UUID {
+        return userService.addUser(userInput)
     }
 
     // field resolver
@@ -47,5 +53,9 @@ data class Post(
 
 data class User(
     val id: UUID?,
+    val name: String
+)
+
+data class AddUserInput(
     val name: String
 )

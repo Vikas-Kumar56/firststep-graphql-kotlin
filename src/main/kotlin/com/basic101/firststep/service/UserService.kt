@@ -1,7 +1,9 @@
 package com.basic101.firststep.service
 
+import com.basic101.firststep.model.UserEntity
 import com.basic101.firststep.repository.PostRepository
 import com.basic101.firststep.repository.UserRepository
+import com.basic101.firststep.resolver.AddUserInput
 import com.basic101.firststep.resolver.Post
 import com.basic101.firststep.resolver.User
 import org.springframework.stereotype.Service
@@ -22,5 +24,17 @@ class UserService(
             id = postEntity.author.id,
             name = postEntity.author.name
         )
+    }
+
+    fun addUser(userInput: AddUserInput): UUID {
+      val userEntity = UserEntity(
+          name = userInput.name
+      )
+
+      val user = userRepository.save(userEntity)
+
+      user.id ?: throw RuntimeException("User id cant be null")
+
+      return user.id
     }
 }
