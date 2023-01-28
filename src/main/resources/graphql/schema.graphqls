@@ -4,6 +4,7 @@ type Query {
     getRandomNumbers: [Int!]!
     getEvent: Event!
     getPosts: [Post!]!
+    recentPosts(page: Int!, size: Int!): [Post!]!
 }
 
 type Post {

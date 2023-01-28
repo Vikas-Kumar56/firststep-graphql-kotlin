@@ -30,7 +30,16 @@ class FirststepApplication {
 				author = user
 			)
 
-			postRepository.save(postEntity)
+			val postEntity2 = PostEntity(
+				title = "Test title - 2",
+				description = "Test description - 2",
+				author = user
+			)
+
+			postRepository.saveAll(listOf(
+				postEntity2,
+				postEntity
+			))
 		}
 	}
 
