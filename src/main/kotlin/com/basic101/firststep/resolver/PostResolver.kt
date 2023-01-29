@@ -12,7 +12,6 @@ import java.util.UUID
 
 @Controller
 class PostResolver(
-    private val userService: UserService,
     private val postService: PostService
 ) {
 
@@ -26,22 +25,15 @@ class PostResolver(
         return postService.getPosts(page, size)
     }
 
-    @MutationMapping
-    fun addUser(@Argument("addUserInput") userInput: AddUserInput): UUID {
-        return userService.addUser(userInput)
-    }
-
-    // field resolver
-    @SchemaMapping(typeName = "Post")
-    fun author(post: Post): User {
-        val postId = post.id ?: throw RuntimeException("postId cant not be null")
-        return userService.findByPostId(postId)
-    }
-
     @SchemaMapping(typeName = "User")
     fun posts(user: User): List<Post> {
         val userId = user.id ?: throw RuntimeException("UserId cant not be null")
         return postService.getPostsByAuthor(userId)
+    }
+
+    @MutationMapping
+    fun addPost(@Argument("addPostInput") addPost: AddPost): Post {
+        return postService.addPost(addPost)
     }
 }
 
@@ -51,11 +43,8 @@ data class Post(
     val description: String?
 )
 
-data class User(
-    val id: UUID?,
-    val name: String
-)
-
-data class AddUserInput(
-    val name: String
+data class AddPost(
+    val title: String,
+    val description: String?,
+    val authorId: UUID
 )

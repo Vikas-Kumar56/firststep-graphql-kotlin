@@ -6,23 +6,21 @@ import com.basic101.firststep.repository.UserRepository
 import com.basic101.firststep.resolver.AddUserInput
 import com.basic101.firststep.resolver.Post
 import com.basic101.firststep.resolver.User
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
 class UserService(
-    private val userRepository: UserRepository,
-    private val postRepository: PostRepository
+    private val userRepository: UserRepository
 ) {
 
     fun findByPostId(postId: UUID): User {
-        val postEntity = postRepository.findById(postId).orElseThrow {
-            RuntimeException("Post does not exist for this user postId: $postId ")
-        }
+        val userEntity = userRepository.findByPostsId(postId)
 
         return User(
-            id = postEntity.author.id,
-            name = postEntity.author.name
+            id = userEntity.id,
+            name = userEntity.name
         )
     }
 
@@ -36,5 +34,15 @@ class UserService(
       user.id ?: throw RuntimeException("User id cant be null")
 
       return user.id
+    }
+
+    fun getUsers(page: Int, size: Int): List<User> {
+      val users = userRepository.findAll(PageRequest.of(page, size))
+      return users.map {
+          User(
+             id = it.id,
+             name = it.name
+          )
+      }.toList()
     }
 }

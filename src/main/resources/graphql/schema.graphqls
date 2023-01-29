@@ -5,10 +5,18 @@ type Query {
     getEvent: Event!
     getPosts: [Post!]!
     recentPosts(page: Int!, size: Int!): [Post!]!
+    getUsers(page: Int!, size: Int!): [User!]!
 }
 
 type Mutation {
     addUser(addUserInput: AddUserInput!): ID!
+    addPost(addPostInput: AddPostInput!): Post!
+}
+
+input AddPostInput {
+    title: String!
+    description: String
+    authorId: ID!
 }
 
 input AddUserInput {
