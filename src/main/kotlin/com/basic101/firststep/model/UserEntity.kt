@@ -14,5 +14,8 @@ class UserEntity(
     val name: String,
 
     @OneToMany(mappedBy = "author")
-    val posts: Set<PostEntity> = setOf()
+    val posts: Set<PostEntity> = setOf(),
+
+    @OneToMany(mappedBy = "author")
+    val comments: Set<CommentEntity> = setOf(),
 )

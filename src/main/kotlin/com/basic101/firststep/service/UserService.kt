@@ -25,24 +25,33 @@ class UserService(
     }
 
     fun addUser(userInput: AddUserInput): UUID {
-      val userEntity = UserEntity(
-          name = userInput.name
-      )
+        val userEntity = UserEntity(
+            name = userInput.name
+        )
 
-      val user = userRepository.save(userEntity)
+        val user = userRepository.save(userEntity)
 
-      user.id ?: throw RuntimeException("User id cant be null")
+        user.id ?: throw RuntimeException("User id cant be null")
 
-      return user.id
+        return user.id
     }
 
     fun getUsers(page: Int, size: Int): List<User> {
-      val users = userRepository.findAll(PageRequest.of(page, size))
-      return users.map {
-          User(
-             id = it.id,
-             name = it.name
-          )
-      }.toList()
+        val users = userRepository.findAll(PageRequest.of(page, size))
+        return users.map {
+            User(
+                id = it.id,
+                name = it.name
+            )
+        }.toList()
+    }
+
+    fun findByCommentId(commentId: UUID?): User {
+        commentId ?: throw RuntimeException("commentId cant be null")
+        val userEntity = userRepository.findByCommentsId(commentId)
+        return User(
+            id = userEntity.id,
+            name = userEntity.name
+        )
     }
 }

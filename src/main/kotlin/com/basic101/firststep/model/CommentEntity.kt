@@ -1,25 +1,24 @@
 package com.basic101.firststep.model
 
 import jakarta.persistence.*
-import java.util.UUID
+import java.util.*
 
 @Entity
-@Table(name = "posts")
-class PostEntity(
+@Table(name = "comments")
+class CommentEntity (
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "UUID")
     val id: UUID? = null,
 
-    @Column
-    val title: String,
-
-    @Column
-    val description: String? = null,
+    @Column(nullable = false)
+    val text: String,
 
     @ManyToOne
     @JoinColumn(name = "author_id")
     val author: UserEntity,
 
-    @OneToMany(mappedBy = "post")
-    val comments: Set<CommentEntity> = setOf(),
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    val post: PostEntity
+
 )

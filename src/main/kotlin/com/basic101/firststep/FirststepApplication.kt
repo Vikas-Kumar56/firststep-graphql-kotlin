@@ -1,7 +1,9 @@
 package com.basic101.firststep
 
+import com.basic101.firststep.model.CommentEntity
 import com.basic101.firststep.model.PostEntity
 import com.basic101.firststep.model.UserEntity
+import com.basic101.firststep.repository.CommentRepository
 import com.basic101.firststep.repository.PostRepository
 import com.basic101.firststep.repository.UserRepository
 import org.springframework.boot.ApplicationRunner
@@ -15,7 +17,8 @@ class FirststepApplication {
 	@Bean
 	fun runner(
 		userRepository: UserRepository,
-		postRepository: PostRepository
+		postRepository: PostRepository,
+		commentRepository: CommentRepository
 	): ApplicationRunner {
 		return ApplicationRunner {
 			val user = UserEntity(
@@ -40,6 +43,14 @@ class FirststepApplication {
 				postEntity2,
 				postEntity
 			))
+
+			val comment = CommentEntity(
+				text = "testing comment",
+				author = user,
+				post = postEntity
+			)
+
+			commentRepository.save(comment)
 		}
 	}
 

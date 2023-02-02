@@ -6,6 +6,7 @@ type Query {
     getPosts: [Post!]!
     recentPosts(page: Int!, size: Int!): [Post!]!
     getUsers(page: Int!, size: Int!): [User!]!
+    getComments(page: Int!, size: Int): [Comment!]!
 }
 
 type Mutation {
@@ -28,12 +29,22 @@ type Post {
     title: String!
     description: String
     author: User
+    comments: [Comment!]!
 }
 
 type User {
     id: ID!
     name: String!
     posts: [Post!]!
+    totalPost: Int!
+    comments: [Comment!]!
+}
+
+type Comment {
+    id: ID!
+    text: String!
+    author: User!
+    post: Post!
 }
 
 type Event {

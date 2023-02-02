@@ -30,6 +30,11 @@ class UserResolver(
         val postId = post.id ?: throw RuntimeException("postId cant not be null")
         return userService.findByPostId(postId)
     }
+
+    @SchemaMapping(typeName = "Comment")
+    fun author(comment: Comment): User {
+        return userService.findByCommentId(comment.id)
+    }
 }
 
 data class User(
