@@ -6,6 +6,7 @@ import com.basic101.firststep.repository.PostRepository
 import com.basic101.firststep.repository.UserRepository
 import com.basic101.firststep.resolver.AddCommentDto
 import com.basic101.firststep.resolver.Comment
+import com.basic101.firststep.resolver.Post
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import java.util.*
@@ -67,5 +68,16 @@ class CommentService(
             id = createdComment.id,
             text = createdComment.text
         )
+    }
+
+    fun getCommentsByPosts(posts: List<Post>): Map<Post, List<Comment>> {
+       val comments = commentRepository.findAllByPostIds(
+           posts.mapNotNull { it.id }.toList())
+
+        return posts.associateWith { post ->
+            comments.filter { comment -> comment.post.id == post.id }
+                .map { comment -> Comment(id = comment.id, text = comment.text) }
+                .toList()
+        }
     }
 }
