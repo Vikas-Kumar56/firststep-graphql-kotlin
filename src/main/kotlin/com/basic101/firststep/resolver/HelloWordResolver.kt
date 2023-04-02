@@ -42,6 +42,13 @@ class HelloWordResolver {
             eventType = "TESTING"
         )
     }
+
+    @QueryMapping
+    fun validationCheck(
+        @Argument name: String,
+        @Argument list: List<Int>,
+        @Argument email: String
+    ) = "Works $name $list $email"
 }
 
 data class Event(

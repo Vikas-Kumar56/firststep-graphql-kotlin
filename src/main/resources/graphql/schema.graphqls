@@ -1,6 +1,6 @@
 type Query {
     helloworld: String
-    greet(name: String!): String!
+    greet(name: String! @Size(min: 5, max: 10, message: "name length should be in 5 to 10 chars")): String!
     getRandomNumbers: [Int!]!
     getEvent: Event!
     getPosts: [Post!]!
@@ -13,6 +13,11 @@ type Query {
         phoneNumber: PhoneNumber!,
         email: Email
      ): String!
+    validationCheck(
+        name: String @NotBlank(message: "It cant be empty"),
+        list: [Int!] @ContainerNotEmpty(message: "It cant be empty"),
+        email: String @Pattern(regexp: "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", message: "It should be valid email")
+    ): String @Uppercase
 }
 
 type Mutation {

@@ -1,0 +1,14 @@
+directive @Size(min: Int = 10, max: Int = 5000, message: String!)
+        on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+
+directive @NotBlank(message: String!)
+       on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @ContainerNotEmpty(message: String)
+     on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @Pattern(regexp: String! = ".*", message: String!)
+      on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @Uppercase on FIELD | FIELD_DEFINITION
