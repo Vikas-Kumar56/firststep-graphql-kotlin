@@ -25,10 +25,16 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("com.graphql-java:graphql-java-extended-scalars:20.0")
 	implementation("com.graphql-java:graphql-java-extended-validation:20.0")
+
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
 	runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework:spring-webflux")
 	testImplementation("org.springframework.graphql:spring-graphql-test")
+
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 }
 
 tasks.withType<KotlinCompile> {

@@ -24,6 +24,7 @@ type Mutation {
     addUser(addUserInput: AddUserInput!): ID!
     addPost(addPostInput: AddPostInput!): Post!
     addComment(addCommentInput: AddCommentInput): Comment!
+    login(username: String!, password: String!): String!
 }
 
 input AddCommentInput {
@@ -40,6 +41,8 @@ input AddPostInput {
 
 input AddUserInput {
     name: String!
+    password: String!
+    roles: String!
 }
 
 type Post {

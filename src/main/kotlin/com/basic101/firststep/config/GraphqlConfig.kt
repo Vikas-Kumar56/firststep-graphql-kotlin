@@ -25,7 +25,7 @@ class GraphqlConfig {
                     ).addPattern(Pattern.compile("\\([0-9]*\\)[0-9]*")).build()
                 ).scalar(email())
                 .directiveWiring(validationSchemaWiring())
-                .directiveWiring(UppercaseDirective())
+                .directive("Uppercase", UppercaseDirective())
         }
     }
 

@@ -10,7 +10,10 @@ import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
+import org.springframework.security.crypto.password.PasswordEncoder
 
+@EnableMethodSecurity(securedEnabled = true)
 @SpringBootApplication
 class FirststepApplication {
 
@@ -18,11 +21,14 @@ class FirststepApplication {
 	fun runner(
 		userRepository: UserRepository,
 		postRepository: PostRepository,
-		commentRepository: CommentRepository
+		commentRepository: CommentRepository,
+		passwordEncoder: PasswordEncoder
 	): ApplicationRunner {
 		return ApplicationRunner {
 			val user = UserEntity(
-				name = "Test user"
+				name = "John",
+				password = passwordEncoder.encode("pass"),
+				roles = "ROLE_ADMIN"
 			)
 
 			userRepository.save(user)

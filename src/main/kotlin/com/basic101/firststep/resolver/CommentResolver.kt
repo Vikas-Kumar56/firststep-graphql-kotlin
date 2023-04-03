@@ -9,6 +9,7 @@ import org.springframework.graphql.data.method.annotation.BatchMapping
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import java.util.UUID
 
@@ -17,11 +18,13 @@ class CommentResolver(
     private val commentService: CommentService
 ) {
 
+    @PreAuthorize("hasAnyRole('VIEWER', 'ADMIN')")
     @QueryMapping
     fun getComments(@Argument("page") page: Int, @Argument size: Int): List<Comment> {
          return commentService.getComments(page, size)
     }
 
+    @PreAuthorize("hasAnyRole('VIEWER', 'ADMIN')")
     @BatchMapping
     fun comments(posts: List<Post>): Map<Post, List<Comment>> {
         LOGGER.info("fetching comments for postIds: (${posts.map { it.id }})")
@@ -35,11 +38,13 @@ class CommentResolver(
 //        return commentService.getCommentsByPostId(post.id)
 //    }
 
+    @PreAuthorize("hasAnyRole('VIEWER', 'ADMIN')")
     @SchemaMapping(typeName = "User")
     fun comments(user: User): List<Comment> {
         return commentService.getCommentsByUserId(user.id)
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @MutationMapping
     fun addComment(@Argument("addCommentInput") addComment: AddCommentDto): Comment {
         return commentService.addComment(addComment)
