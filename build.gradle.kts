@@ -34,6 +34,9 @@ dependencies {
 	testImplementation("org.springframework:spring-webflux")
 	testImplementation("org.springframework.graphql:spring-graphql-test")
 
+	testImplementation("io.kotest:kotest-runner-junit5:5.5.5")
+	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
+
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 }
 
