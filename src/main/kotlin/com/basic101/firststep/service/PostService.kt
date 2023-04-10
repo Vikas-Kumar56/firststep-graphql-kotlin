@@ -6,6 +6,7 @@ import com.basic101.firststep.repository.UserRepository
 import com.basic101.firststep.resolver.AddPost
 import com.basic101.firststep.resolver.Post
 import org.springframework.data.domain.PageRequest
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -49,8 +50,9 @@ class PostService(
     }
 
     fun addPost(addPost: AddPost): Post {
-        val user = userRepository.findById(addPost.authorId)
-            .orElseThrow { RuntimeException("UserId is not valid, userId: ${addPost.authorId}") }
+        val loggedInUsername = SecurityContextHolder.getContext().authentication.name
+        val user = userRepository.findByName(loggedInUsername)
+            ?: throw RuntimeException("UserId is not valid, userId: $loggedInUsername")
 
         val postEntity = PostEntity(
             title = addPost.title,

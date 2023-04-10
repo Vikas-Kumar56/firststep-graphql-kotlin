@@ -72,5 +72,4 @@ data class Post(
 data class AddPost(
     val title: String,
     val description: String?,
-    val authorId: UUID
 )

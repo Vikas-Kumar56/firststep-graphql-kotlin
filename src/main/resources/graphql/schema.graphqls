@@ -35,7 +35,6 @@ input AddCommentInput {
 input AddPostInput {
     title: String!
     description: String
-    authorId: ID!
 }
 
 input AddUserInput {
