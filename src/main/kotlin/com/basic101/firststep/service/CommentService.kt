@@ -16,7 +16,8 @@ import java.util.*
 @Service
 class CommentService(
     private val commentRepository: CommentRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val postRepository: PostRepository
 ) {
     fun getComments(page: Int, size: Int): List<Comment> {
         val pageRequest = PageRequest.of(page, size)
@@ -56,8 +57,9 @@ class CommentService(
        val user = userRepository.findByName(loggedInUsername)
            ?: throw RuntimeException("user does not exist with id: $loggedInUsername")
 
-        val post = user.posts.firstOrNull { it.id == addComment.postId }
-                  ?: throw RuntimeException("Post does not exist with id: ${addComment.postId}")
+        val post = postRepository.findById(addComment.postId).orElseThrow() {
+            RuntimeException("Post does not exist with id: ${addComment.postId}")
+        }
 
        val comment = CommentEntity(
            text = addComment.text,
