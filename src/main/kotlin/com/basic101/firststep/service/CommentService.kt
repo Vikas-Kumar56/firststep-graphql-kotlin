@@ -8,6 +8,8 @@ import com.basic101.firststep.resolver.AddCommentDto
 import com.basic101.firststep.resolver.Comment
 import com.basic101.firststep.resolver.Post
 import org.springframework.data.domain.PageRequest
+import org.springframework.security.core.context.SecurityContext
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -50,10 +52,11 @@ class CommentService(
     }
 
     fun addComment(addComment: AddCommentDto): Comment {
-       val user = userRepository.findById(addComment.authorId)
-           .orElseThrow { RuntimeException("user does not exist with id: ${addComment.authorId}") }
+       val loggedInUsername = SecurityContextHolder.getContext().authentication.name
+       val user = userRepository.findByName(loggedInUsername)
+           ?: throw RuntimeException("user does not exist with id: $loggedInUsername")
 
-       val post = user.posts.firstOrNull { it.id == addComment.postId }
+        val post = user.posts.firstOrNull { it.id == addComment.postId }
                   ?: throw RuntimeException("Post does not exist with id: ${addComment.postId}")
 
        val comment = CommentEntity(
